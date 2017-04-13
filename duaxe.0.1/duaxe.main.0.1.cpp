@@ -1,6 +1,6 @@
 #include <iostream>
-#include <time.h>
-#include <stdlib.h>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std ;
 
@@ -34,7 +34,7 @@ void KhoiTaoXe (Xe &xe){
 	xe.hd.a[0][0] = xe.hd.a[0][2] = xe.hd.a[2][0] = xe.hd.a[2][2] = 'o';	// vẽ 4 bánh xe
 	xe.hd.a[0][1] = '^';	                                                // đầu xe
 	xe.hd.a[1][0] = xe.hd.a[1][2] = '|';                                	// thân xe
-	xe.hd.a[2][1] = '_';                                                    // đuôi xe
+	xe.hd.a[2][1] = '-';                                                    // đuôi xe
 	xe.hd.a[1][1] = 'x';                                                    // điểm lấy tọa độ của xe
 
     xe.diem = 0;
