@@ -47,7 +47,7 @@ void KhoiTaoVatCan (VatCan &vc){
 
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
-			vc.hd.a[i][j] = 173;
+			vc.hd.a[i][j] = '*' ;
 }
 
 void HienThi(){
