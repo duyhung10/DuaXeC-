@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1493306320 source:c:\users\leduyhungdeptraihaha\documents\codeblocks\btapduaxe\main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<conio.h>
+	<windows.h>
+	"thuvien.h"
+
+1493306752 c:\users\leduyhungdeptraihaha\documents\codeblocks\btapduaxe\thuvien.h
+
+1493306752 source:c:\users\leduyhungdeptraihaha\documents\codeblocks\btapduaxe\thuvien.cpp
+	<stdio.h>
+	<conio.h>
+	<windows.h>
+	"thuvien.h"
+

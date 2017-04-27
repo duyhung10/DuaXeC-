@@ -1,127 +1,154 @@
-#include <>
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <conio.h>
+#include <windows.h>
+#include "thuvien.h"
 
 using namespace std ;
 
-#define chieudaiConsole 80
-#define chieucaoConsole 25
-#define chieudaiDuongDua 25
+#define ChDaiDuongDua	20
+#define ChRongDuongDua	20
 
 
 struct ToaDo{
-    int y, x;
+	int x, y;
 };
+
 
 struct HinhDang{
-    char a[3][3];
+	char mang[3][3];
 };
+
 
 struct Xe{
-    ToaDo td;
-    HinhDang hd;
-    int diem;
+	ToaDo ViTri;
+	HinhDang hd;
 };
+
 
 struct VatCan{
-    ToaDo td;
-    HinhDang hd;
+	ToaDo ViTri;
+	HinhDang hd;
 };
 
-void KhoiTaoXe (Xe &xe){
-	xe.td.y = chieucaoConsole - 2;
-	xe.td.x = chieudaiDuongDua / 2;
 
-	xe.hd.a[0][0] = xe.hd.a[0][2] = xe.hd.a[2][0] = xe.hd.a[2][2] = 'o';	// vẽ 4 bánh xe
-	xe.hd.a[0][1] = '^';	                                                // đầu xe
-	xe.hd.a[1][0] = xe.hd.a[1][2] = '|';                                	// thân xe
-	xe.hd.a[2][1] = '_';                                                    // đuôi xe
-	xe.hd.a[1][1] = 'x';                                                    // điểm lấy tọa độ của xe
+void KhoiTao (Xe &xe, VatCan &Vatcan){
 
-    xe.diem = 0;
-}
+	// Tạo Xe
 
-void KhoiTaoVatCan (VatCan &vc){
+	xe.ViTri.y = ChDaiDuongDua - 2;
+	xe.ViTri.x = ChRongDuongDua / 2;
 
-	vc.td.x = 2 + rand() % (chieudaiDuongDua -3-2+1);
-	vc.td.y = -2;
+	xe.hd.mang[0][0] = xe.hd.mang[0][2] = xe.hd.mang[2][0] = xe.hd.mang[2][2] = 'o';	// bánh xe
+	xe.hd.mang[0][1] = '^';                                                         	// đầu xe
+	xe.hd.mang[1][0] = xe.hd.mang[1][2] = '|';	                                        // thân xe
+	xe.hd.mang[2][1] = '-';                                                             // đuôi xe
+	xe.hd.mang[1][1] = '*';                                                             // điểm giữa xe - điểm lấy tọa độ xe. **
+
+	// Tạo vật cản
+
+	Vatcan.ViTri.x = 2 + rand() % (ChRongDuongDua-2 -2 +1);
+	Vatcan.ViTri.y = -2;
 
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
-			vc.hd.a[i][j] = '*' ;
+			Vatcan.hd.mang[i][j] = '*';
 }
 
 
-void HienThi (Xe xe, VatCan vc)
-{
-	clrscr();
-
-	// Vẽ đường biên
-	for (int i = 0; i < chieucaoConsole; i++)
-		cout << "|";
-
-	for (int i = 0; i < chieudaiConsole; i++)
-	{
-		gotoXY (chieudaiDuongDua, i);
-		cout << "|";
-	}
-
-
-	// Hiển thị xe
-	for (int kDong = -1; kDong <= 1; kDong++)
-		for (int kCot = -1; kCot <= 1; kCot++)
-		{
-			int x = kCot + xe.td.x;
-			int y = kDong + xe.td.y;
+void HienThiXe (Xe xe){
+	for (int k = -1; k <= 1; k++){
+		for (int j = -1; j <= 1; j++){
+			int x = j + xe.ViTri.x;
+			int y = k + xe.ViTri.y;
 
 			gotoXY (x, y);
-			cout<< xe.hd.a[kDong+1][kCot+1];
+			cout<< xe.hd.mang[k+1][j+1] ;
 		}
+	}
+}
 
 
-	// Hiển thị vật cản
-	for (int kDong = -1; kDong <= 1; kDong++)
-		for (int kCot = -1; kCot <= 1; kCot++)
-		{
-			int x = kCot + vc.td.x;
-			int y = kDong + vc.td.y;
+void DieuKhien (Xe &xe){
+	if (kbhit()){
+		int key = getch();
 
-			if (y >= 0 && y < chieucaoConsole)
+		if ((key == 'A' || key == 'a') && xe.ViTri.x > 2)
+			xe.ViTri.x--;
+		else if ((key == 'D' || key == 'd') && xe.ViTri.x < ChRongDuongDua - 2)
+			xe.ViTri.x++;
+        else if ((key == 'W' || key == 'w') && xe.ViTri.y >1 )
+            xe.ViTri.y--;
+        else if ((key == 'S' || key == 's') && xe.ViTri.y < ChDaiDuongDua - 2)
+            xe.ViTri.y++;
+	}
+}
+
+
+void HienThiVatCan(VatCan &Vatcan){
+
+    for (int k = -1; k <= 1; k++)
+		for (int j = -1; j <= 1; j++){
+			int x = j + Vatcan.ViTri.x;
+			int y = k + Vatcan.ViTri.y;
+
+			if (y >= 0 && y < ChDaiDuongDua)
 			{
 				gotoXY (x, y);
-				cout<< vc.hd.a[kDong+1][kCot+1];
+				cout<< Vatcan.hd.mang[k+1][j+1];
 			}
-		}
+    }
 
+	Vatcan.ViTri.y++;  // Vật cản đi xuống dưới
 
-	// Thông báo điểm
-	gotoXY (chieudaiDuongDua + 5, 12);
-	cout<< xe.diem ;
+	if (Vatcan.ViTri.y > ChDaiDuongDua){
+		Vatcan.ViTri.x = 2 + rand() % (ChRongDuongDua -2 -2 +1);
+		Vatcan.ViTri.y = -2;
+	}
 }
 
 
-void DieuKhien(){
-
-}
-
-void XuLiTrongGame(){
-
-}
-
-
-int main(){
-
+int main()
+{
 	srand (time (NULL));
 
+	Xe xe;
+	VatCan Vatcan;
+
+	KhoiTao (xe, Vatcan);
+
+    int diem = 0;
 	while (1)
 	{
-		// 1. Hiển thị xe và vật cản
+	    clrscr();
+        // Vẽ đường đua
+        for (int i = 0; i < ChDaiDuongDua; i++)
+            cout<< '|' << endl ;
+
+        for (int i = 0; i < ChDaiDuongDua; i++){
+            gotoXY (ChRongDuongDua, i);
+            cout<< '|' << endl ;
+        }
+
+        gotoXY (0, ChRongDuongDua);
+        for (int i = 0; i < ChRongDuongDua+1; i++)
+            cout<< '-' ;
 
 
-		// 2. Điều khiển xe
+		HienThiXe(xe);
 
+		HienThiVatCan(Vatcan);
 
-		// 3. Xử lí trong game
+		DieuKhien (xe);
+        // Tăng Điểm + Xử Lí Va Chạm
+        gotoXY(30, 5);
+        cout<< "Diem = " << diem;
+
+		Sleep (200);
+
 	}
+
 
 	return 0;
 }
-
